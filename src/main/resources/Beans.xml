@@ -39,4 +39,18 @@
     <!-- Definition for logging aspect -->
     <bean id="logging" class="com.tutorialspoint.Logging"/>
 
+    <!-- Initialization for data source -->
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/spring-demo"/>
+        <property name="username" value="root"/>
+        <property name="password" value="mysql123"/>
+    </bean>
+
+    <!-- Definition for studentJDBCTemplate bean -->
+    <bean id="studentJDBCTemplate"
+          class="com.dao.StudentJDBCTemplate">
+        <property name="dataSource"  ref="dataSource" />
+    </bean>
 </beans>
