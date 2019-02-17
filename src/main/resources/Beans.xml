@@ -7,13 +7,13 @@
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop-3.0.xsd ">
 
-    <!--@AspectJ 支持是可用的-->
+    <!--@AspectJ 支持是可用的 开启代理-->
     <aop:aspectj-autoproxy/>
 
     <!--使用常规类以及基于配置的 XML 来实现的-->
     <!--一个 aspect 是使用 元素声明的，支持的 bean 是使用 ref 属性引用的-->
     <!--<aop:config>-->
-        <!--&lt;!&ndash;这里，“logging” 将被配置和依赖注入&ndash;&gt;-->
+        <!--&lt;!&ndash;这里，下面“logging” Bean 将被配置和依赖注入&ndash;&gt;-->
         <!--<aop:aspect id="log" ref="logging">-->
             <!--&lt;!&ndash;声明一个切入点(一组一个或多个连接点) &ndash;&gt;-->
             <!--<aop:pointcut id="selectAll"-->
@@ -39,7 +39,7 @@
     <!-- Definition for logging aspect -->
     <bean id="logging" class="com.tutorialspoint.Logging"/>
 
-    <!-- Initialization for data source -->
+    <!-- Initialization for data source 配置数据源 -->
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
@@ -48,7 +48,7 @@
         <property name="password" value="mysql123"/>
     </bean>
 
-    <!-- Definition for studentJDBCTemplate bean -->
+    <!-- Definition for studentJDBCTemplate bean 配置JDBC Template -->
     <bean id="studentJDBCTemplate"
           class="com.dao.StudentJDBCTemplate">
         <property name="dataSource"  ref="dataSource" />
