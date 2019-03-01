@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * @author hbd
+ * 测试Spring jdbc例子
  */
 public class MainSpringJDBCAPP {
     public static void main(String[] args) {

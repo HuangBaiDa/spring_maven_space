@@ -1,44 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
     http://www.springframework.org/schema/aop
-    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd ">
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+    <!-- TEST AOP START -->
     <!--@AspectJ 支持是可用的 开启代理-->
     <aop:aspectj-autoproxy/>
 
     <!--使用常规类以及基于配置的 XML 来实现的-->
     <!--一个 aspect 是使用 元素声明的，支持的 bean 是使用 ref 属性引用的-->
     <!--<aop:config>-->
-        <!--&lt;!&ndash;这里，下面“logging” Bean 将被配置和依赖注入&ndash;&gt;-->
-        <!--<aop:aspect id="log" ref="logging">-->
-            <!--&lt;!&ndash;声明一个切入点(一组一个或多个连接点) &ndash;&gt;-->
-            <!--<aop:pointcut id="selectAll"-->
-                          <!--expression="execution(* com.tutorialspoint.*.*(..))"/>-->
-            <!--&lt;!&ndash;声明建议&ndash;&gt;-->
-            <!--<aop:before pointcut-ref="selectAll" method="beforeAdvice"/>-->
-            <!--<aop:after pointcut-ref="selectAll" method="afterAdvice"/>-->
-            <!--<aop:after-returning pointcut-ref="selectAll"-->
-                                 <!--returning="retVal"-->
-                                 <!--method="afterReturningAdvice"/>-->
-            <!--<aop:after-throwing pointcut-ref="selectAll"-->
-                                <!--throwing="ex"-->
-                                <!--method="AfterThrowingAdvice"/>-->
-        <!--</aop:aspect>-->
+    <!--&lt;!&ndash;这里，下面“logging” Bean 将被配置和依赖注入&ndash;&gt;-->
+    <!--<aop:aspect id="log" ref="logging">-->
+    <!--&lt;!&ndash;声明一个切入点(一组一个或多个连接点) &ndash;&gt;-->
+    <!--<aop:pointcut id="selectAll"-->
+    <!--expression="execution(* com.tutorialspoint.*.*(..))"/>-->
+    <!--&lt;!&ndash;声明建议&ndash;&gt;-->
+    <!--<aop:before pointcut-ref="selectAll" method="beforeAdvice"/>-->
+    <!--<aop:after pointcut-ref="selectAll" method="afterAdvice"/>-->
+    <!--<aop:after-returning pointcut-ref="selectAll"-->
+    <!--returning="retVal"-->
+    <!--method="afterReturningAdvice"/>-->
+    <!--<aop:after-throwing pointcut-ref="selectAll"-->
+    <!--throwing="ex"-->
+    <!--method="AfterThrowingAdvice"/>-->
+    <!--</aop:aspect>-->
     <!--</aop:config>-->
 
     <!-- Definition for student bean -->
     <bean id="student" class="com.tutorialspoint.Student">
-        <property name="name"  value="Zara" />
-        <property name="age"  value="11"/>
+        <property name="name" value="Zara"/>
+        <property name="age" value="11"/>
     </bean>
 
     <!-- Definition for logging aspect -->
     <bean id="logging" class="com.tutorialspoint.Logging"/>
 
+    <!-- TEST AOP END -->
+
+    <!-- TEST Transaction START -->
     <!-- Initialization for data source 配置数据源 -->
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -48,9 +52,43 @@
         <property name="password" value="mysql123"/>
     </bean>
 
-    <!-- Definition for studentJDBCTemplate bean 配置JDBC Template -->
-    <bean id="studentJDBCTemplate"
-          class="com.dao.StudentJDBCTemplate">
-        <property name="dataSource"  ref="dataSource" />
+    <!-- 基于xml配置(声明式事务) -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="create"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="createOperation"
+                      expression="execution(* com.transaction.StudentJDBCTemplate.create(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="createOperation"/>
+    </aop:config>
+
+    <!-- Initialization for TransactionManager -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
     </bean>
+
+    <!-- Definition for studentJDBCTemplate bean -->
+    <bean id="studentJDBCTemplate"
+          class="com.transaction.StudentJDBCTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- TEST Transaction END -->
+
+    <!-- Spring jdbc例子 -->
+    <!-- Definition for studentJDBCTemplate bean 配置JDBC Template -->
+    <!--<bean id="studentJDBCTemplate"-->
+    <!--class="com.dao.StudentJDBCTemplate">-->
+    <!--<property name="dataSource"  ref="dataSource" />-->
+    <!--</bean>-->
+
+    <!--  Log4J START -->
+    <!-- Log4J日志例子用到的POJO -->
+    <bean id="helloWorld" class="com.logmanage.HelloWorld">
+        <property name="message" value="Hello World!"/>
+    </bean>
+    <!--  Log4J END -->
 </beans>

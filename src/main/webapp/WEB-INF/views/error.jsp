@@ -1,16 +1,16 @@
 <%--
   Created by IntelliJ IDEA.
-  User: lucm
-  Date: 2019-2-15
-  Time: 13:44
+  User: Administrator
+  Date: 2019/3/1
+  Time: 9:08
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Hello World</title>
+    <title>Title</title>
 </head>
 <body>
-<h1>spring mvc maven hello</h1>
+<p>An error occured, please contact webmaster.</p>
 </body>
 </html>

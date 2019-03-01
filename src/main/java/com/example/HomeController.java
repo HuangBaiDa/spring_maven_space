@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * @author 力拔山兮气盖世
  * @version jiahe house 1.0.0
- * @description
+ * @description 简单Spring mvc例子
  * @date 2019-2-15
  */
 @Controller
